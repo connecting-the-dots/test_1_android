@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.w3c.dom.Text;
+import com.parse.ParseUser;
+import com.parse.ParseRelation;
 
 import java.util.Date;
 
@@ -57,7 +59,7 @@ public class AppTrackActivity extends Activity {
     }
     public void startCountDown(final TextView service_state) {
 
-        Date date = new Date(System.currentTimeMillis());
+        final Date date = new Date(System.currentTimeMillis());
         CountDownTimer myTimer =  new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -65,13 +67,34 @@ public class AppTrackActivity extends Activity {
             }
             public void onFinish() {
                 service_state.setText("done!");
-                for(int i = TrackAccessibilityService.outerArray.length() - 1; i >= 0; i--)
+                ParseObject myHourBlock = new ParseObject("AppHourBlock");
+
+                myHourBlock.put("date", date);
+                for(int i = TrackAccessibilityService.outerArray.length() - 1; i >= 0; i--) {
                     try {
                         Log.d(TAG, TrackAccessibilityService.outerArray.get(i).toString());
+
+                        ParseObject myAppActivity = new ParseObject("AppActivity");
+                        myAppActivity.put("packageName", TrackAccessibilityService.outerArray.getJSONObject(i).getString("packageName"));
+                        myAppActivity.put("appName", TrackAccessibilityService.outerArray.getJSONObject(i).getString("appName"));
+                        myAppActivity.put("activities", TrackAccessibilityService.outerArray.getJSONObject(i).getJSONArray("activities"));
+                        myAppActivity.put("sumTime", 8888);
+                        myAppActivity.put("appHourBlock", myHourBlock);
+//                        ParseRelation<ParseObject> timeRelation = myAppActivity.getRelation("bbb");
+//                        timeRelation.add(myAppActivity);
+
+                        myAppActivity.saveInBackground();
                         TrackAccessibilityService.outerArray.remove(i);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+
+                ParseUser user = ParseUser.getCurrentUser();
+                myHourBlock.put("user", user);
+//                ParseRelation<ParseObject> relation = myHourBlock.getRelation("aaa");
+//                relation.add(user);
+                myHourBlock.saveInBackground();
 
             }
         }.start();
