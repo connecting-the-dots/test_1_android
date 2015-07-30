@@ -97,8 +97,7 @@
             android:layout_gravity="center_vertical"
             android:id="@+id/stop_button"
             android:backgroundTint="#ffff6a6d"
-            android:nestedScrollingEnabled="false"
-            android:enabled="false" />
+            android:nestedScrollingEnabled="false" />
     </LinearLayout>
 
-</LinearLayout><!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/res/layout/apptrack.xml -->
+</LinearLayout><!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/res/layout/apptrack.xml -->

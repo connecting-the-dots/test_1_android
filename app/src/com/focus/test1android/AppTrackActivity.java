@@ -27,11 +27,15 @@ public class AppTrackActivity extends Activity {
         setContentView(R.layout.apptrack);
         start_button = (Button) findViewById(R.id.start_button);
         stop_button = (Button) findViewById(R.id.stop_button);
+
+        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        startActivity(intent);
     }
 
     public void onStartClick(View view) {
-        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        startActivity(intent);
+        Intent it = new Intent(this, TrackAccessibilityService.class);
+
+        startService(it);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -48,8 +52,9 @@ public class AppTrackActivity extends Activity {
     }
 
     public void onStopClick(View view) {
-        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        startActivity(intent);
+        Intent it = new Intent(this, TrackAccessibilityService.class);
+
+        stopService(it);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

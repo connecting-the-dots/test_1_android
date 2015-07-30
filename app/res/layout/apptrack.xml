@@ -97,8 +97,7 @@
             android:layout_gravity="center_vertical"
             android:id="@+id/stop_button"
             android:backgroundTint="#ffff6a6d"
-            android:nestedScrollingEnabled="false"
-            android:enabled="false" />
+            android:nestedScrollingEnabled="false" />
     </LinearLayout>
 
 </LinearLayout>
