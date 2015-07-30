@@ -7,18 +7,27 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.facebook.AccessToken;
+import com.parse.ParseObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
 
 /**
  * Created by XNS on 2015/7/23.
  */
 public class TrackAccessibilityService extends AccessibilityService {
 
+//    public static JSONArray outerArray = new JSONArray();
+
     public static String currentPackageName = "";
-    public static long beginTime = 0;
+    public static long startTime = 0;
     public static long endTime = 0;
-    public static long interval = 0;
+    public static long duration = 0;
     public static boolean ignoring = false;
-    public static final String TAG = "MyAccessibilityService";
+    public static final String TAG = "TrackAccessibilityService";
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -31,7 +40,7 @@ public class TrackAccessibilityService extends AccessibilityService {
 
             if(currentPackageName.contentEquals("")) { // first time
                 currentPackageName = tempPackageName;
-                beginTime = System.currentTimeMillis();
+                startTime = System.currentTimeMillis();
                 return;
             }
             if (tempPackageName.contentEquals("com.android.systemui") ||
@@ -53,13 +62,30 @@ public class TrackAccessibilityService extends AccessibilityService {
                     endTime = System.currentTimeMillis();
                 }
 
-                interval = endTime - beginTime;
-                beginTime = System.currentTimeMillis();
-                Log.v(TAG, "PackageName: " + currentPackageName + ", interval: " + (interval / 1000));
+                duration = endTime - startTime;
+                startTime = System.currentTimeMillis();
+//                Log.v(TAG, "PackageName: " + currentPackageName + ", duration: " + (duration / 1000));
+//                storeAppActivity();
                 currentPackageName = event.getPackageName().toString();
             }
         }
-    }
+//    }
+//    void storeAppActivity() {
+//        int i = 0;
+//
+//        if(outerArray.length() == 0) {
+//            JSONObject myAppActivity = new JSONObject();
+//            try {
+//                myAppActivity.put("packageName", currentPackageName);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            myAppActivity.put("", );
+//
+//        }
+//    }
+
+
     @Override
     public void onInterrupt()
     {

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.os.CountDownTimer;
 
 import com.parse.ParseObject;
 
@@ -16,6 +17,8 @@ import java.util.Arrays;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import org.w3c.dom.Text;
+
 import java.util.Date;
 
 /**
@@ -38,9 +41,6 @@ public class AppTrackActivity extends Activity {
     }
 
     public void onStartClick(View view) {
-        Intent it = new Intent(this, TrackAccessibilityService.class);
-
-        startService(it);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -48,50 +48,25 @@ public class AppTrackActivity extends Activity {
         }
         start_button.setClickable(false);
         stop_button.setClickable(true);
-        TextView service_state = (TextView) findViewById(R.id.service_state);
-        service_state.setText("Service On");
+        final TextView service_state = (TextView) findViewById(R.id.service_state);
+//        service_state.setText("Service On");
+        startCountDown(service_state);
         service_state.setBackgroundColor(getResources().getColor(R.color.on_background));
 
-        
+    }
+    public void startCountDown(final TextView service_state) {
 
-        JSONObject myObject = new JSONObject();
-        JSONObject mySecObject = new JSONObject();
-        JSONArray myArray = new JSONArray();
+        CountDownTimer myTimer =  new CountDownTimer(60000, 1000) {
 
-        long currentTime = System.currentTimeMillis();
-        try {
-            myObject.put("startTime", currentTime);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            myObject.put("duration", 3000);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        myArray.put(myObject);
+            public void onTick(long millisUntilFinished) {
+                service_state.setText("remaining: " + millisUntilFinished / 1000 + "sec");
+            }
+            Date date = new Date(System.currentTimeMillis());
+            public void onFinish() {
+                service_state.setText("done!");
 
-
-        currentTime = System.currentTimeMillis();
-        try {
-            mySecObject.put("startTime", currentTime);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            mySecObject.put("duration", 4000);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        myArray.put(mySecObject);
-
-        ParseObject testObject = new ParseObject("TestObject");
-        Date date = new Date(System.currentTimeMillis());
-        testObject.put("date", date);
-        testObject.put("activities", myArray);
-        testObject.saveInBackground();
-        Log.d(Test1Android.TAG, "testObject uploaded");
+            }
+        }.start();
     }
 
     public void onReportClick(View view) {
