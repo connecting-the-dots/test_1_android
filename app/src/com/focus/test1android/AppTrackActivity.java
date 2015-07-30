@@ -13,6 +13,11 @@ import com.parse.ParseObject;
 
 import java.util.Arrays;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import java.util.Date;
+
 /**
  * Created by XNS on 2015/7/22.
  */
@@ -46,6 +51,46 @@ public class AppTrackActivity extends Activity {
         TextView service_state = (TextView) findViewById(R.id.service_state);
         service_state.setText("Service On");
         service_state.setBackgroundColor(getResources().getColor(R.color.on_background));
+
+
+        JSONObject myObject = new JSONObject();
+        JSONObject mySecObject = new JSONObject();
+        JSONArray myArray = new JSONArray();
+
+        long currentTime = System.currentTimeMillis();
+        try {
+            myObject.put("startTime", currentTime);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            myObject.put("duration", 3000);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        myArray.put(myObject);
+
+
+        currentTime = System.currentTimeMillis();
+        try {
+            mySecObject.put("startTime", currentTime);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            mySecObject.put("duration", 4000);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        myArray.put(mySecObject);
+
+        ParseObject testObject = new ParseObject("TestObject");
+        Date date = new Date(System.currentTimeMillis());
+        testObject.put("date", date);
+        testObject.put("activities", myArray);
+        testObject.saveInBackground();
+        Log.d(Test1Android.TAG, "testObject uploaded");
     }
 
     public void onReportClick(View view) {
