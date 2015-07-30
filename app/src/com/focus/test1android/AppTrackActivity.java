@@ -28,6 +28,7 @@ public class AppTrackActivity extends Activity {
 
     private Button start_button;
     private Button stop_button;
+    public static final String TAG = "AppTrackActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +57,21 @@ public class AppTrackActivity extends Activity {
     }
     public void startCountDown(final TextView service_state) {
 
+        Date date = new Date(System.currentTimeMillis());
         CountDownTimer myTimer =  new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 service_state.setText("remaining: " + millisUntilFinished / 1000 + "sec");
             }
-            Date date = new Date(System.currentTimeMillis());
             public void onFinish() {
                 service_state.setText("done!");
+                for(int i = TrackAccessibilityService.outerArray.length() - 1; i >= 0; i--)
+                    try {
+                        Log.d(TAG, TrackAccessibilityService.outerArray.get(i).toString());
+                        TrackAccessibilityService.outerArray.remove(i);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
             }
         }.start();

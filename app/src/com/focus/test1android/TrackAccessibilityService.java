@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent;
 
 import com.facebook.AccessToken;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +21,7 @@ import java.util.Date;
  */
 public class TrackAccessibilityService extends AccessibilityService {
 
-//    public static JSONArray outerArray = new JSONArray();
+    public static JSONArray outerArray = new JSONArray();
 
     public static String currentPackageName = "";
     public static long startTime = 0;
@@ -64,27 +65,72 @@ public class TrackAccessibilityService extends AccessibilityService {
 
                 duration = endTime - startTime;
                 startTime = System.currentTimeMillis();
-//                Log.v(TAG, "PackageName: " + currentPackageName + ", duration: " + (duration / 1000));
-//                storeAppActivity();
+                Log.v(TAG, "PackageName: " + currentPackageName + ", duration: " + (duration / 1000));
+                try {
+                    storeAppInfo();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 currentPackageName = event.getPackageName().toString();
             }
         }
-//    }
-//    void storeAppActivity() {
-//        int i = 0;
-//
-//        if(outerArray.length() == 0) {
-//            JSONObject myAppActivity = new JSONObject();
-//            try {
-//                myAppActivity.put("packageName", currentPackageName);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            myAppActivity.put("", );
-//
-//        }
-//    }
+    }
+    void storeAppInfo() throws JSONException {
 
+        if(outerArray.length() == 0)
+        {
+            JSONObject myObject = new JSONObject();
+
+            myObject.put("appName", currentPackageName);
+            myObject.put("packageName", currentPackageName);
+            storeAppActivity( myObject , true );
+            outerArray.put(myObject);
+        } else {
+            boolean is_new = true;
+            int index = 0;
+            for(int i = 0; i < outerArray.length(); i++) {
+
+                JSONObject currentJSONObject = outerArray.getJSONObject(i);
+                if(currentJSONObject.getString("packageName").contentEquals(currentPackageName)) {
+                    is_new = false;
+                    index = i;
+                }
+            }
+            if(is_new) {
+                JSONObject myObject = new JSONObject();
+
+                myObject.put("appName", currentPackageName);
+                myObject.put("packageName", currentPackageName);
+                storeAppActivity( myObject , true );
+                outerArray.put(myObject);
+            } else {
+                storeAppActivity(outerArray.getJSONObject(index) , false);
+            }
+        }
+
+    }
+    void storeAppActivity(JSONObject myObject, boolean is_new) throws JSONException {
+
+        JSONArray innerArray = new JSONArray();
+        JSONObject innerObject = new JSONObject();
+
+        innerObject.put("startTime", startTime);
+        innerObject.put("duration", duration);
+
+        if(is_new) {
+            try {
+                myObject.put("activities", innerArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            myObject.getJSONArray("activities").put(innerObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     public void onInterrupt()
