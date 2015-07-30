@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
     <eat-comment/>
     <color name="com_facebook_blue">#3B5998</color>
     <color name="com_facebook_button_background_color">#415dae</color>
@@ -15,18 +15,18 @@
     <color name="com_facebook_likeboxcountview_text_color">#6a7180</color>
     <color name="com_facebook_likeview_text_color">#6a7180</color>
     <color name="com_facebook_share_button_text_color">#FFFFFF</color>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/res/values/styles.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/res/values/styles.xml -->
     <eat-comment/>
     <color name="off_background">#ffb0acad</color>
     <color name="on_background">#ffec850e</color>
     <declare-styleable name="com_facebook_like_view"><attr format="color" name="com_facebook_foreground_color"/><attr format="string" name="com_facebook_object_id"/><attr name="com_facebook_object_type"><enum name="unknown" value="0"/><enum name="open_graph" value="1"/><enum name="page" value="2"/></attr><attr name="com_facebook_style"><enum name="standard" value="0"/><enum name="button" value="1"/><enum name="box_count" value="2"/></attr><attr name="com_facebook_auxiliary_view_position"><enum name="bottom" value="0"/><enum name="inline" value="1"/><enum name="top" value="2"/></attr><attr name="com_facebook_horizontal_alignment"><enum name="center" value="0"/><enum name="left" value="1"/><enum name="right" value="2"/></attr></declare-styleable>
     <declare-styleable name="com_facebook_login_view"><attr format="boolean" name="com_facebook_confirm_logout"/><attr format="string" name="com_facebook_login_text"/><attr format="string" name="com_facebook_logout_text"/><attr name="com_facebook_tooltip_mode"><enum name="automatic" value="0"/><enum name="display_always" value="1"/><enum name="never_display" value="2"/></attr></declare-styleable>
     <declare-styleable name="com_facebook_profile_picture_view"><attr name="com_facebook_preset_size"><enum name="small" value="-2"/><enum name="normal" value="-3"/><enum name="large" value="-4"/></attr><attr format="boolean" name="com_facebook_is_cropped"/></declare-styleable>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/res/values/dimens.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
     <eat-comment/>
     <dimen name="com_facebook_likeboxcountview_border_radius">3dp</dimen>
     <dimen name="com_facebook_likeboxcountview_border_width">1dp</dimen>
@@ -47,12 +47,12 @@
     <dimen name="com_facebook_share_button_padding_top">12dp</dimen>
     <dimen name="com_facebook_share_button_text_size">16.0sp</dimen>
     <dimen name="com_facebook_tooltip_horizontal_padding">10dp</dimen>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/res/values/strings.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_id">1660612197495817</string>
     <string name="app_name">test_1_android</string>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
     <eat-comment/>
     <string name="com_facebook_image_download_unknown_error">Unexpected error while downloading an image.</string>
     <string name="com_facebook_internet_permission_error_message">WebView login requires INTERNET permission</string>
@@ -70,13 +70,13 @@
     <string name="com_facebook_send_button_text">Send</string>
     <string name="com_facebook_share_button_text">Share</string>
     <string name="com_facebook_tooltip_default">New! You\'re in control - choose what info you want to share with apps.</string>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/res/values/strings.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/res/values/strings.xml -->
     <eat-comment/>
     <string name="login_intro">:))</string>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
     <eat-comment/>
     <string name="messenger_send_button_text">Send</string>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/res/values/strings.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/res/values/strings.xml -->
     <eat-comment/>
     <string name="report_button">Report</string>
     <string name="service_off">Service Off</string>
@@ -84,7 +84,7 @@
     <string name="start_track">Start</string>
     <string name="stop_track">Stop</string>
     <string name="track_button">Go track</string>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/res/values/styles.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
@@ -96,7 +96,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    <!-- From: file:/C:/Users/Harvey%20Yang/Desktop/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
+    <!-- From: file:/Users/AdrianHsu/Google_Drive/Summer_2015/test_1_android/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.4.0/res/values/values.xml -->
     <eat-comment/>
     <style name="MessengerButton">
     <item name="android:clickable">true</item>
