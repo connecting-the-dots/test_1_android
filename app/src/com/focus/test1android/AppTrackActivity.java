@@ -52,6 +52,7 @@ public class AppTrackActivity extends Activity {
         service_state.setText("Service On");
         service_state.setBackgroundColor(getResources().getColor(R.color.on_background));
 
+        
 
         JSONObject myObject = new JSONObject();
         JSONObject mySecObject = new JSONObject();
