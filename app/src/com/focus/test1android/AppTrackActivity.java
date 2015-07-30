@@ -57,6 +57,7 @@ public class AppTrackActivity extends Activity {
         service_state.setBackgroundColor(getResources().getColor(R.color.on_background));
 
     }
+    
     public void startCountDown(final TextView service_state) {
 
         final Date date = new Date(System.currentTimeMillis());
@@ -78,7 +79,7 @@ public class AppTrackActivity extends Activity {
                         myAppActivity.put("packageName", TrackAccessibilityService.outerArray.getJSONObject(i).getString("packageName"));
                         myAppActivity.put("appName", TrackAccessibilityService.outerArray.getJSONObject(i).getString("appName"));
                         myAppActivity.put("activities", TrackAccessibilityService.outerArray.getJSONObject(i).getJSONArray("activities"));
-                        myAppActivity.put("sumTime", 8888);
+                        myAppActivity.put("sumTime", TrackAccessibilityService.outerArray.getJSONObject(i).getLong("sumTime"));
                         myAppActivity.put("appHourBlock", myHourBlock);
 //                        ParseRelation<ParseObject> timeRelation = myAppActivity.getRelation("bbb");
 //                        timeRelation.add(myAppActivity);

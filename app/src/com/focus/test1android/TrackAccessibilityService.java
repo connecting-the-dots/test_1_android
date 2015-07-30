@@ -120,12 +120,15 @@ public class TrackAccessibilityService extends AccessibilityService {
         if(is_new) {
             try {
                 myObject.put("activities", innerArray);
+                myObject.put("sumTime", 0);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         try {
             myObject.getJSONArray("activities").put(innerObject);
+            long tmp = myObject.getLong("sumTime");
+            myObject.put("sumTime", tmp + duration);
         } catch (JSONException e) {
             e.printStackTrace();
         }
