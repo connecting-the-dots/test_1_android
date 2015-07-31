@@ -57,7 +57,7 @@ public class AppTrackActivity extends Activity {
         service_state.setBackgroundColor(getResources().getColor(R.color.on_background));
 
     }
-    
+
     public void startCountDown(final TextView service_state) {
 
         final Date date = new Date(System.currentTimeMillis());

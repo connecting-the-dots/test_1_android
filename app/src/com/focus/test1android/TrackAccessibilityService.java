@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+
 /**
  * Created by XNS on 2015/7/23.
  */
@@ -29,6 +30,7 @@ public class TrackAccessibilityService extends AccessibilityService {
     public static long duration = 0;
     public static boolean ignoring = false;
     public static final String TAG = "TrackAccessibilityService";
+
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -64,13 +66,13 @@ public class TrackAccessibilityService extends AccessibilityService {
                 }
 
                 duration = endTime - startTime;
-                startTime = System.currentTimeMillis();
-                Log.v(TAG, "PackageName: " + currentPackageName + ", duration: " + (duration / 1000));
                 try {
                     storeAppInfo();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                startTime = System.currentTimeMillis();
+                Log.v(TAG, "PackageName: " + currentPackageName + ", duration: " + (duration / 1000));
                 currentPackageName = event.getPackageName().toString();
             }
         }
@@ -81,7 +83,7 @@ public class TrackAccessibilityService extends AccessibilityService {
         {
             JSONObject myObject = new JSONObject();
 
-            myObject.put("appName", currentPackageName);
+            myObject.put("appName", getAppName());
             myObject.put("packageName", currentPackageName);
             storeAppActivity( myObject , true );
             outerArray.put(myObject);
@@ -107,7 +109,10 @@ public class TrackAccessibilityService extends AccessibilityService {
                 storeAppActivity(outerArray.getJSONObject(index) , false);
             }
         }
+    }
+    String getAppName() {
 
+        return currentPackageName;
     }
     void storeAppActivity(JSONObject myObject, boolean is_new) throws JSONException {
 
