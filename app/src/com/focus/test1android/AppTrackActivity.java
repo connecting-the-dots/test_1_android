@@ -13,6 +13,10 @@ import android.os.CountDownTimer;
 import com.parse.ParseObject;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +34,7 @@ public class AppTrackActivity extends Activity {
 
     private Button start_button;
     private Button stop_button;
+    public static JSONArray mySortedArray = new JSONArray();
     public static final String TAG = "AppTrackActivity";
 
     @Override
@@ -68,24 +73,31 @@ public class AppTrackActivity extends Activity {
             }
             public void onFinish() {
                 service_state.setText("done!");
+                try {
+                    sortJSONArray();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 ParseObject myHourBlock = new ParseObject("AppHourBlock");
 
                 myHourBlock.put("date", date);
-                for(int i = TrackAccessibilityService.outerArray.length() - 1; i >= 0; i--) {
+                int len = mySortedArray.length();
+                for(int i = len - 1; i >= 0; i--) {
                     try {
-                        Log.d(TAG, TrackAccessibilityService.outerArray.get(i).toString());
+                        Log.d(TAG, mySortedArray.get(i).toString());
 
                         ParseObject myAppActivity = new ParseObject("AppActivity");
-                        myAppActivity.put("packageName", TrackAccessibilityService.outerArray.getJSONObject(i).getString("packageName"));
-                        myAppActivity.put("appName", TrackAccessibilityService.outerArray.getJSONObject(i).getString("appName"));
-                        myAppActivity.put("activities", TrackAccessibilityService.outerArray.getJSONObject(i).getJSONArray("activities"));
-                        myAppActivity.put("sumTime", TrackAccessibilityService.outerArray.getJSONObject(i).getLong("sumTime"));
+                        myAppActivity.put("packageName", mySortedArray.getJSONObject(i).getString("packageName"));
+                        myAppActivity.put("appName", mySortedArray.getJSONObject(i).getString("appName"));
+                        myAppActivity.put("activities", mySortedArray.getJSONObject(i).getJSONArray("activities"));
+                        myAppActivity.put("sumTime", mySortedArray.getJSONObject(i).getLong("sumTime"));
                         myAppActivity.put("appHourBlock", myHourBlock);
 //                        ParseRelation<ParseObject> timeRelation = myAppActivity.getRelation("bbb");
 //                        timeRelation.add(myAppActivity);
-
+                        mySortedArray.remove(i);
                         myAppActivity.saveInBackground();
-                        TrackAccessibilityService.outerArray.remove(i);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -101,6 +113,41 @@ public class AppTrackActivity extends Activity {
         }.start();
     }
 
+    public void sortJSONArray() throws JSONException {
+
+        List<JSONObject> jsonValues = new ArrayList<JSONObject>();
+        for (int i = 0; i < TrackAccessibilityService.outerArray.length(); i++) {
+            jsonValues.add(TrackAccessibilityService.outerArray.getJSONObject(i));
+        }
+        Collections.sort( jsonValues, new Comparator<JSONObject>() {
+            private static final String KEY_NAME = "sumTime";
+
+            @Override
+            public int compare(JSONObject a, JSONObject b) {
+
+                long valA = -1;
+                long valB = -1;
+                try {
+                    valA =  a.getLong(KEY_NAME);
+                    valB =  b.getLong(KEY_NAME);
+                }
+                catch (JSONException e) {
+                    //do something
+                }
+
+                if(valA > valB) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        int len = TrackAccessibilityService.outerArray.length();
+        for (int i = 0; i < len; i++) {
+            mySortedArray.put(jsonValues.get(i));
+            TrackAccessibilityService.outerArray.remove(len - 1 - i);
+        }
+    }
     public void onReportClick(View view) {
     }
 
