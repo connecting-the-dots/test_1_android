@@ -77,6 +77,7 @@ public class TrackAccessibilityService extends AccessibilityService {
             }
         }
     }
+
     void storeAppInfo() throws JSONException {
 
         if(outerArray.length() == 0)

@@ -66,6 +66,13 @@ public class AppTrackActivity extends Activity {
     public void startCountDown(final TextView service_state) {
 
         final Date date = new Date(System.currentTimeMillis());
+
+        int len = TrackAccessibilityService.outerArray.length();
+        for (int i = 0; i < len; i++) {
+            TrackAccessibilityService.outerArray.remove(len - 1 - i);
+            mySortedArray.remove(len - 1 - i);
+        }
+
         CountDownTimer myTimer =  new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -95,7 +102,6 @@ public class AppTrackActivity extends Activity {
                         myAppActivity.put("appHourBlock", myHourBlock);
 //                        ParseRelation<ParseObject> timeRelation = myAppActivity.getRelation("bbb");
 //                        timeRelation.add(myAppActivity);
-                        mySortedArray.remove(i);
                         myAppActivity.saveInBackground();
 
                     } catch (JSONException e) {
@@ -117,7 +123,8 @@ public class AppTrackActivity extends Activity {
 
         List<JSONObject> jsonValues = new ArrayList<JSONObject>();
         for (int i = 0; i < TrackAccessibilityService.outerArray.length(); i++) {
-            jsonValues.add(TrackAccessibilityService.outerArray.getJSONObject(i));
+            JSONObject clone = new JSONObject(TrackAccessibilityService.outerArray.getJSONObject(i).toString());
+            jsonValues.add(clone);
         }
         Collections.sort( jsonValues, new Comparator<JSONObject>() {
             private static final String KEY_NAME = "sumTime";
@@ -145,16 +152,18 @@ public class AppTrackActivity extends Activity {
         int len = TrackAccessibilityService.outerArray.length();
         for (int i = 0; i < len; i++) {
             mySortedArray.put(jsonValues.get(i));
-            TrackAccessibilityService.outerArray.remove(len - 1 - i);
+//            TrackAccessibilityService.outerArray.remove(len - 1 - i);
         }
     }
     public void onReportClick(View view) {
+        Intent it = new Intent(this, ReportActivity.class);
+        startActivity(it);
     }
 
     public void onStopClick(View view) {
         Intent it = new Intent(this, TrackAccessibilityService.class);
-
         stopService(it);
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
