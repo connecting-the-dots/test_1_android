@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-93b473a58f54a1f9fbff6f2f2cb39308add8f166.jar" />
+    </item>
+    <item
+        jar="C:\Users\Harvey Yang\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.2.0\6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd\bolts-android-1.2.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\bolts-android-1.2.0-bfb98c77bf63b9b474e36e40897e19ff583b6f32.jar" />
+    </item>
+    <item
+        jar="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\libs\mpandroidchartlibrary-2-1-2.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="5174e30c198a42ab59241ab8a89d9b5b9c3c909d">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\mpandroidchartlibrary-2-1-2-9194c62fdeb6878243e5fc3c30b643397703dd86.jar" />
+    </item>
+    <item
+        jar="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\libs\ParseFacebookUtilsV4-1.9.2.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="bab281cc21f6a68152e11ab53b053790ccfd6764">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\ParseFacebookUtilsV4-1.9.2-bdd67c6abd81932de7ac5b72774858bb2dbe70ea.jar" />
+    </item>
+    <item
+        jar="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\classes-62459a792ed8421921a2390906b8c91ced8f720a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="152e1df65212df23a4b5dba0e819e63bca93192c">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\classes-575e4a8f759d74abf216ccc48c93cfc3b75018dd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Harvey Yang\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-eaf2ac55a27d308ef92c26d917f57e2597ddc1c7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\libs\Parse-1.9.2.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="fe739334780fe321141e62720822c2d456061899">
+        <dex dex="C:\Users\Harvey Yang\Desktop\test\test_1_android\app\build\intermediates\pre-dexed\debug\Parse-1.9.2-24d76e2da82c9ca6d5eec0e00f53d81bcb4fb52f.jar" />
+    </item>
+
+</items>

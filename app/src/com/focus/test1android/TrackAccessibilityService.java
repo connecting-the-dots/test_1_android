@@ -77,8 +77,21 @@ public class TrackAccessibilityService extends AccessibilityService {
             }
         }
     }
+    public static void stopActivity() throws JSONException {
+        if(!ignoring){
+            endTime = System.currentTimeMillis();
+            duration = endTime - startTime;
+            try {
+                storeAppInfo();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            startTime = System.currentTimeMillis();
+        }
 
-    void storeAppInfo() throws JSONException {
+    }
+
+    static void storeAppInfo() throws JSONException {
 
         if(outerArray.length() == 0)
         {
@@ -111,11 +124,11 @@ public class TrackAccessibilityService extends AccessibilityService {
             }
         }
     }
-    String getAppName() {
+    static String getAppName() {
 
         return currentPackageName;
     }
-    void storeAppActivity(JSONObject myObject, boolean is_new) throws JSONException {
+    static void storeAppActivity(JSONObject myObject, boolean is_new) throws JSONException {
 
         JSONArray innerArray = new JSONArray();
         JSONObject innerObject = new JSONObject();

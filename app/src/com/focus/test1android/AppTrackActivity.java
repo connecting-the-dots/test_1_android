@@ -81,11 +81,15 @@ public class AppTrackActivity extends Activity {
             public void onFinish() {
                 service_state.setText("done!");
                 try {
+                    TrackAccessibilityService.stopActivity();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
                     sortJSONArray();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 ParseObject myHourBlock = new ParseObject("AppHourBlock");
 
                 myHourBlock.put("date", date);
