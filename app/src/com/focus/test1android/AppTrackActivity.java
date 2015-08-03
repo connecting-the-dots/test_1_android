@@ -163,6 +163,10 @@ public class AppTrackActivity extends Activity {
         Intent it = new Intent(this, AddFriendActivity.class);
         startActivity(it);
     }
+    public void onPushClick(View view) {
+        Intent it = new Intent(this, PushActivity.class);
+        startActivity(it);
+    }
     public void onStopClick(View view) {
         Intent it = new Intent(this, TrackAccessibilityService.class);
         stopService(it);

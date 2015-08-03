@@ -25,6 +25,8 @@ public class UserDetailsActivity extends Activity {
 
   private ProfilePictureView userProfilePictureView;
   private TextView userNameView;
+  private TextView userGenderView;
+  private TextView userEmailView;
   //private TextView userGenderView;
   //private TextView userEmailView;
   public static final String TAG = "UserDetailsActivity";
@@ -37,8 +39,8 @@ public class UserDetailsActivity extends Activity {
 
     userProfilePictureView = (ProfilePictureView) findViewById(R.id.userProfilePicture);
     userNameView = (TextView) findViewById(R.id.userName);
-    //userGenderView = (TextView) findViewById(R.id.userGender);
-    //userEmailView = (TextView) findViewById(R.id.userEmail);
+    userGenderView = (TextView) findViewById(R.id.userGender);
+//    userEmailView = (TextView) findViewById(R.id.userEmail);
 
 
     //Fetch Facebook user info if it is logged
@@ -77,12 +79,8 @@ public class UserDetailsActivity extends Activity {
                   try {
                     userProfile.put("facebookId", jsonObject.getLong("id"));
                     userProfile.put("name", jsonObject.getString("name"));
-
-                    //if (jsonObject.getString("gender") != null)
-                    //userProfile.put("gender", jsonObject.getString("gender"));
-
-                    //if (jsonObject.getString("email") != null)
-                    //userProfile.put("email", jsonObject.getString("email"));
+                    userProfile.put("gender", jsonObject.getString("gender"));
+//                    userProfile.put("email", jsonObject.getString("email"));
 
                     // Save the user profile info in a user property
                     ParseUser currentUser = ParseUser.getCurrentUser();
@@ -137,17 +135,17 @@ public class UserDetailsActivity extends Activity {
           userNameView.setText("");
         }
 
-        /*if (userProfile.has("gender")) {
+        if (userProfile.has("gender")) {
           userGenderView.setText(userProfile.getString("gender"));
         } else {
           userGenderView.setText("");
-        }*/
+        }
 
-        /*if (userProfile.has("email")) {
-          userEmailView.setText(userProfile.getString("email"));
-        } else {
-          userEmailView.setText("");
-        }*/
+//        if (userProfile.has("email")) {
+//          userEmailView.setText(userProfile.getString("email"));
+//        } else {
+//          userEmailView.setText("");
+//        }
 
       } catch (JSONException e) {
         Log.d(Test1Android.TAG, "Error parsing saved user data.");
