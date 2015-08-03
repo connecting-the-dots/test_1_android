@@ -55,7 +55,7 @@
             android:nestedScrollingEnabled="false" />
 
         <Button
-            android:layout_width="87dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:text="@string/report_button"
@@ -70,9 +70,31 @@
             android:paddingBottom="@dimen/com_facebook_share_button_padding_bottom"
             android:onClick="onReportClick"
             android:layout_marginLeft="0dp"
-            android:clickable="false"
+            android:clickable="true"
+            android:id="@+id/button"
+            android:backgroundTint="#ffb0324c"
+            android:nestedScrollingEnabled="false"
+            android:layout_weight="0.11" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/friend_button"
+            android:textColor="@color/com_facebook_share_button_text_color"
+            android:textSize="@dimen/com_facebook_share_button_text_size"
+            android:textStyle="bold"
+            android:background="#ffb0324c"
+            android:drawablePadding="@dimen/com_facebook_share_button_compound_drawable_padding"
+            android:paddingLeft="@dimen/com_facebook_share_button_padding_left"
+            android:paddingTop="@dimen/com_facebook_share_button_padding_top"
+            android:paddingRight="@dimen/com_facebook_share_button_padding_right"
+            android:paddingBottom="@dimen/com_facebook_share_button_padding_bottom"
+            android:onClick="onFriendClick"
+            android:layout_marginLeft="0dp"
+            android:clickable="true"
             android:layout_gravity="center_vertical"
-            android:id="@+id/report_button"
+            android:id="@+id/friend_button"
             android:backgroundTint="#ffb0324c"
             android:nestedScrollingEnabled="false"
             android:layout_weight="0.11" />

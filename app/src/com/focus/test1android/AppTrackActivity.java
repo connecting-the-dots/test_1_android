@@ -159,7 +159,10 @@ public class AppTrackActivity extends Activity {
         Intent it = new Intent(this, ReportActivity.class);
         startActivity(it);
     }
-
+    public void onFriendClick(View view) {
+        Intent it = new Intent(this, AddFriendActivity.class);
+        startActivity(it);
+    }
     public void onStopClick(View view) {
         Intent it = new Intent(this, TrackAccessibilityService.class);
         stopService(it);

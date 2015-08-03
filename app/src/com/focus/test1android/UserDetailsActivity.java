@@ -11,12 +11,15 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.facebook.HttpMethod;
 
 public class UserDetailsActivity extends Activity {
 
@@ -24,6 +27,7 @@ public class UserDetailsActivity extends Activity {
   private TextView userNameView;
   //private TextView userGenderView;
   //private TextView userEmailView;
+  public static final String TAG = "UserDetailsActivity";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,8 @@ public class UserDetailsActivity extends Activity {
   }
 
   private void makeMeRequest() {
-    GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
+    GraphRequest request = GraphRequest.newMeRequest(
+            AccessToken.getCurrentAccessToken(),
             new GraphRequest.GraphJSONObjectCallback() {
               @Override
               public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
@@ -110,7 +115,6 @@ public class UserDetailsActivity extends Activity {
                 }
               }
             });
-
     request.executeAsync();
   }
 
