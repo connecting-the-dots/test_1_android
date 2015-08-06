@@ -2,6 +2,7 @@ package com.focus.test1android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -64,16 +65,27 @@ public class AppTrackActivity extends Activity {
     }
 
     public void startCountDown(final TextView service_state) {
-
-        final Date date = new Date(System.currentTimeMillis());
-
-        int len = TrackAccessibilityService.outerArray.length();
-        for (int i = 0; i < len; i++) {
-            TrackAccessibilityService.outerArray.remove(len - 1 - i);
-            mySortedArray.remove(len - 1 - i);
+        final long startTime = System.currentTimeMillis() + TrackAccessibilityService.deltaTime;
+        final Date date = new Date(startTime);
+        TrackAccessibilityService.blockStart = startTime;
+        TrackAccessibilityService.startHour = 3600000 * (startTime / 3600000);
+        try {
+            TrackAccessibilityService.stopActivity();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        /*
+        while(TrackAccessibilityService.outerArray.length() != 0){
+            TrackAccessibilityService.outerArray.remove(0);
+        }
+        while(mySortedArray.length() != 0){
+            mySortedArray.remove(0);
+        }
+        */
+        TrackAccessibilityService.outerArray = new JSONArray();
+        mySortedArray = new JSONArray();
 
-        CountDownTimer myTimer =  new CountDownTimer(60000, 1000) {
+        CountDownTimer myTimer =  new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 service_state.setText("remaining: " + millisUntilFinished / 1000 + "sec");
@@ -92,7 +104,13 @@ public class AppTrackActivity extends Activity {
                 }
                 ParseObject myHourBlock = new ParseObject("AppHourBlock");
 
-                myHourBlock.put("date", date);
+
+                myHourBlock.put("date", new Date(TrackAccessibilityService.startHour));
+                myHourBlock.put("start", new Date(TrackAccessibilityService.blockStart));
+                myHourBlock.put("user", ParseUser.getCurrentUser());
+                //myHourBlock.put("date", date);
+
+
                 int len = mySortedArray.length();
                 for(int i = len - 1; i >= 0; i--) {
                     try {
@@ -103,18 +121,62 @@ public class AppTrackActivity extends Activity {
                         myAppActivity.put("appName", mySortedArray.getJSONObject(i).getString("appName"));
                         myAppActivity.put("activities", mySortedArray.getJSONObject(i).getJSONArray("activities"));
                         myAppActivity.put("sumTime", mySortedArray.getJSONObject(i).getLong("sumTime"));
-                        myAppActivity.put("appHourBlock", myHourBlock);
 //                        ParseRelation<ParseObject> timeRelation = myAppActivity.getRelation("bbb");
 //                        timeRelation.add(myAppActivity);
                         myAppActivity.saveInBackground();
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
-                ParseUser user = ParseUser.getCurrentUser();
-                myHourBlock.put("user", user);
+                JSONObject hourBlock = new JSONObject();
+                try {
+                    hourBlock.put("startHour", TrackAccessibilityService.startHour);
+                    hourBlock.put("outerArray", mySortedArray);
+
+                    long id = Test1Android.itemDAO.insert(hourBlock);
+
+                    Test1Android.hourBlockId.put(date.toString(), id);
+
+                    ParseObject currentBlock = new ParseObject("currentBlock");
+                    currentBlock.put("jsonObject", hourBlock);
+                    currentBlock.put("startHour", hourBlock.getLong("startHour"));
+                    currentBlock.put("outerArray", hourBlock.getJSONArray("outerArray"));
+
+                    currentBlock.saveInBackground();
+
+                    String jsonInString = hourBlock.toString();
+                    JSONObject transBlock = new JSONObject(jsonInString);
+
+                    ParseObject TransBlock = new ParseObject("transBlock");
+                    TransBlock.put("jsonObject", transBlock);
+                    TransBlock.put("startHour", transBlock.getLong("startHour"));
+                    TransBlock.put("outerArray", transBlock.getJSONArray("outerArray"));
+
+                    TransBlock.saveInBackground();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                try {
+                    JSONArray hourBlocks = Test1Android.itemDAO.getAll();
+
+                    myHourBlock.put("blocks", hourBlocks.length());
+                    for(int i = 0; i < hourBlocks.length(); i++){
+                        ParseObject tempHourBlock = new ParseObject("databaseTest");
+                        tempHourBlock.put("jsonObject", hourBlocks.getJSONObject(i));
+                        tempHourBlock.saveInBackground();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 //                ParseRelation<ParseObject> relation = myHourBlock.getRelation("aaa");
 //                relation.add(user);
                 myHourBlock.saveInBackground();

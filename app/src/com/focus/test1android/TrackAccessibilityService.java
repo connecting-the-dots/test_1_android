@@ -25,11 +25,15 @@ public class TrackAccessibilityService extends AccessibilityService {
     public static JSONArray outerArray = new JSONArray();
 
     public static String currentPackageName = "";
+    public static long blockStart = 0;
+    public static long startHour = 0;
     public static long startTime = 0;
     public static long endTime = 0;
     public static long duration = 0;
     public static boolean ignoring = false;
+    public static long deltaTime = 8*3600*1000;
     public static final String TAG = "TrackAccessibilityService";
+
 
 
     @Override
@@ -43,7 +47,8 @@ public class TrackAccessibilityService extends AccessibilityService {
 
             if(currentPackageName.contentEquals("")) { // first time
                 currentPackageName = tempPackageName;
-                startTime = System.currentTimeMillis();
+                startTime = System.currentTimeMillis() + deltaTime;
+
                 return;
             }
             if (tempPackageName.contentEquals("com.android.systemui") ||
@@ -52,7 +57,7 @@ public class TrackAccessibilityService extends AccessibilityService {
                 if (ignoring) {
                     return;
                 }
-                endTime = System.currentTimeMillis();
+                endTime = System.currentTimeMillis() + deltaTime;
                 ignoring = true;
             }
             else {
@@ -62,7 +67,7 @@ public class TrackAccessibilityService extends AccessibilityService {
                     if (tempPackageName.contentEquals(currentPackageName)) {
                         return;
                     }
-                    endTime = System.currentTimeMillis();
+                    endTime = System.currentTimeMillis() + deltaTime;
                 }
 
                 duration = endTime - startTime;
@@ -71,7 +76,7 @@ public class TrackAccessibilityService extends AccessibilityService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                startTime = System.currentTimeMillis();
+                startTime = System.currentTimeMillis() + deltaTime;
                 Log.v(TAG, "PackageName: " + currentPackageName + ", duration: " + (duration / 1000));
                 currentPackageName = event.getPackageName().toString();
             }
@@ -79,14 +84,14 @@ public class TrackAccessibilityService extends AccessibilityService {
     }
     public static void stopActivity() throws JSONException {
         if(!ignoring){
-            endTime = System.currentTimeMillis();
+            endTime = System.currentTimeMillis() + deltaTime;
             duration = endTime - startTime;
             try {
                 storeAppInfo();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis() + deltaTime;
         }
 
     }
