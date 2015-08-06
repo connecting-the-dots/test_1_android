@@ -96,7 +96,8 @@ public class ItemDAO{
     }
 
     // 讀取所有記事資料
-    public JSONArray getAll() throws JSONException {
+    public List<String> getAll() throws JSONException {
+        /*
         JSONArray hourblocks = new JSONArray();
         Cursor cursor = db.query(
                 TABLE_NAME, null, null, null, null, null, null, null);
@@ -104,8 +105,20 @@ public class ItemDAO{
         while(cursor.moveToNext()){
             Log.v("ItemDAO", "count + 1");
             String appInString = cursor.getString(1);
-            JsonReader reader;
             hourblocks.put(new JSONObject(appInString));
+        }
+        Log.v("ItemDAO", "stop counting");
+
+        cursor.close();
+        return hourblocks;
+        */
+        List<String> hourblocks= new ArrayList<String>();
+        Cursor cursor = db.query(
+                TABLE_NAME, null, null, null, null, null, null, null);
+        Log.v("ItemDAO", "start counting");
+        while(cursor.moveToNext()){
+            Log.v("ItemDAO", "count + 1");
+            hourblocks.add(cursor.getString(1));
         }
         Log.v("ItemDAO", "stop counting");
 
@@ -135,27 +148,6 @@ public class ItemDAO{
         return null;
     }
 
-    // 把Cursor目前的資料包裝為物件
-    /*
-    public Item getRecord(Cursor cursor) {
-        // 準備回傳結果用的物件
-        Item result = new Item();
-
-        result.setId(cursor.getLong(0));
-        result.setDatetime(cursor.getLong(1));
-        result.setColor(ItemActivity.getColors(cursor.getInt(2)));
-        result.setTitle(cursor.getString(3));
-        result.setContent(cursor.getString(4));
-        result.setFileName(cursor.getString(5));
-        result.setLatitude(cursor.getDouble(6));
-        result.setLongitude(cursor.getDouble(7));
-        result.setLastModify(cursor.getLong(8));
-
-        // 回傳結果
-        return result;
-    }
-    */
-
     // 取得資料數量
     public int getCount() {
         int result = 0;
@@ -167,19 +159,4 @@ public class ItemDAO{
 
         return result;
     }
-
-    // 建立範例資料
-    /*
-    public void sample() {
-        Item item = new Item(0, new Date().getTime(), Colors.RED, "關於Android Tutorial的事情.", "Hello content", "", 0, 0, 0);
-        Item item2 = new Item(0, new Date().getTime(), Colors.BLUE, "一隻非常可愛的小狗狗!", "她的名字叫「大熱狗」，又叫\n作「奶嘴」，是一隻非常可愛\n的小狗。", "", 25.04719, 121.516981, 0);
-        Item item3 = new Item(0, new Date().getTime(), Colors.GREEN, "一首非常好聽的音樂！", "Hello content", "", 0, 0, 0);
-        Item item4 = new Item(0, new Date().getTime(), Colors.ORANGE, "儲存在資料庫的資料", "Hello content", "", 0, 0, 0);
-
-        insert(item);
-        insert(item2);
-        insert(item3);
-        insert(item4);
-    }
-    */
 }

@@ -139,23 +139,14 @@ public class AppTrackActivity extends Activity {
                     long id = Test1Android.itemDAO.insert(hourBlock);
 
                     Test1Android.hourBlockId.put(date.toString(), id);
-
+                    /*
                     ParseObject currentBlock = new ParseObject("currentBlock");
                     currentBlock.put("jsonObject", hourBlock);
                     currentBlock.put("startHour", hourBlock.getLong("startHour"));
                     currentBlock.put("outerArray", hourBlock.getJSONArray("outerArray"));
 
                     currentBlock.saveInBackground();
-
-                    String jsonInString = hourBlock.toString();
-                    JSONObject transBlock = new JSONObject(jsonInString);
-
-                    ParseObject TransBlock = new ParseObject("transBlock");
-                    TransBlock.put("jsonObject", transBlock);
-                    TransBlock.put("startHour", transBlock.getLong("startHour"));
-                    TransBlock.put("outerArray", transBlock.getJSONArray("outerArray"));
-
-                    TransBlock.saveInBackground();
+                    */
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -163,6 +154,7 @@ public class AppTrackActivity extends Activity {
 
 
                 try {
+                    /*
                     JSONArray hourBlocks = Test1Android.itemDAO.getAll();
 
                     myHourBlock.put("blocks", hourBlocks.length());
@@ -171,7 +163,21 @@ public class AppTrackActivity extends Activity {
                         tempHourBlock.put("jsonObject", hourBlocks.getJSONObject(i));
                         tempHourBlock.saveInBackground();
                     }
+                    */
 
+                    List<String> hourBlocks = Test1Android.itemDAO.getAll();
+                    for(int i = 0; i < hourBlocks.size(); i++){
+                        ParseObject tempHourBlock = new ParseObject("databaseBlocks");
+                        JSONObject jsonObjectTest = new JSONObject(hourBlocks.get(i));
+
+                        tempHourBlock.put("jsonObject", jsonObjectTest);
+                        tempHourBlock.put("startHour", jsonObjectTest.getLong("startHour"));
+                        tempHourBlock.put("outerArray", jsonObjectTest.getJSONArray("outerArray"));
+                        tempHourBlock.put("user", ParseUser.getCurrentUser());
+                        // Why can't I use this ???
+                        // tempHourBlock.put("startHour", new Date(jsonObjectTest.getLong("startHour")));
+                        tempHourBlock.saveInBackground();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
