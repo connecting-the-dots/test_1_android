@@ -171,11 +171,11 @@ public class AppTrackActivity extends Activity {
                         JSONObject jsonObjectTest = new JSONObject(hourBlocks.get(i));
 
                         tempHourBlock.put("jsonObject", jsonObjectTest);
-                        tempHourBlock.put("startHour", jsonObjectTest.getLong("startHour"));
                         tempHourBlock.put("outerArray", jsonObjectTest.getJSONArray("outerArray"));
                         tempHourBlock.put("user", ParseUser.getCurrentUser());
-                        // Why can't I use this ???
-                        // tempHourBlock.put("startHour", new Date(jsonObjectTest.getLong("startHour")));
+                        long temp = (long)jsonObjectTest.getLong("startHour");
+                        tempHourBlock.put("startHourDate", new Date(temp));
+
                         tempHourBlock.saveInBackground();
                     }
 
