@@ -17,10 +17,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.os.CountDownTimer;
 
+import com.parse.FindCallback;
+import com.parse.ParseClassName;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.w3c.dom.Text;
+
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ParseRelation;
 
@@ -288,7 +295,46 @@ public class AppTrackActivity extends Activity{
 //
 //        } else {
         Log.v(TAG, "KICK!");
-        addNotification();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        final String userObjectId = currentUser.getObjectId();
+        final JSONObject profile = currentUser.getJSONObject("profile");
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FriendRelation");
+        // include the pointer field if you want to be able to
+        // extract the data from it after the query will be returned.
+
+        query.whereEqualTo("userObjectId", userObjectId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> friend, ParseException e) {
+                if (e == null) {
+
+                    for (int i = 0; i < friend.size(); i++) {
+
+                        HashMap<String, String> param = new HashMap<String, String>();
+                        try {
+                            param.put("from", String.valueOf(profile.get("name")));
+                            param.put("to", friend.get(i).getString("installationId"));
+                            param.put("message", String.valueOf(profile.get("name") + ": 我正在耍廢，把我踢下線。"));
+
+                            Log.v(TAG, "from " + String.valueOf(profile.get("name")));
+                            Log.v(TAG, "to " + friend.get(i).getString("installationId"));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        try {
+                            ParseCloud.callFunction("deserveKick", param);
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
+                } else {
+                    Log.d(TAG, "Error: " + e.getMessage());
+                }
+            }
+        });
+
+//        addNotification();
     }
     private void addNotification() {
 

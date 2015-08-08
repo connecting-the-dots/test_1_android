@@ -109,10 +109,13 @@ public class AddFriendActivity extends Activity {
                                 final ParseObject myFriendRelation = new ParseObject("FriendRelation");
 
                                 Log.v(TAG, "friend " + i + ": " + jarray.getJSONObject(i));
-                                myFriendRelation.put("user", ParseUser.getCurrentUser());
+                                ParseUser currentUser = ParseUser.getCurrentUser();
+                                myFriendRelation.put("user", currentUser);
                                 myFriendRelation.put("profile", jarray.getJSONObject(i));
                                 long tmpFacebookId = jarray.getJSONObject(i).getLong("id");
                                 myFriendRelation.put("facebookId", tmpFacebookId);
+                                String userObjectId = currentUser.getObjectId();
+                                myFriendRelation.put("userObjectId", userObjectId);
 
                                 ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
 
