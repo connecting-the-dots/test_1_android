@@ -19,83 +19,84 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-// ¸ê®Æ¥\¯àÃþ§O
+//
+// ï¿½ï¿½Æ¥\ï¿½ï¿½ï¿½ï¿½ï¿½O
 public class ItemDAO{
-    // ªí®æ¦WºÙ
+    // ï¿½ï¿½ï¿½Wï¿½ï¿½
     public static final String TABLE_NAME = "AppHourBlock";
 
-    // ½s¸¹ªí®æÄæ¦ì¦WºÙ¡A©T©w¤£ÅÜ
+    // ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Ù¡Aï¿½Tï¿½wï¿½ï¿½ï¿½ï¿½
     public static final String KEY_ID = "_id";
 
-    // ¨ä¥¦ªí®æÄæ¦ì¦WºÙ
+    // ï¿½ä¥¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½
     public static final String APPHOURBLOCK = "appHourBlock";
 
-    // ¨Ï¥Î¤W­±«Å§iªºÅÜ¼Æ«Ø¥ßªí®æªºSQL«ü¥O
+    // ï¿½Ï¥Î¤Wï¿½ï¿½ï¿½Å§iï¿½ï¿½ï¿½Ü¼Æ«Ø¥ßªï¿½æªºSQLï¿½ï¿½O
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     APPHOURBLOCK + " TEXT)";
 
-    // ¸ê®Æ®wª«¥ó
+    // ï¿½ï¿½Æ®wï¿½ï¿½ï¿½ï¿½
     private SQLiteDatabase db;
 
-    // «Øºc¤l¡A¤@¯ëªºÀ³¥Î³£¤£»Ý­n­×§ï
+    // ï¿½Øºcï¿½lï¿½Aï¿½@ï¿½ëªºï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½Ý­nï¿½×§ï¿½
     public ItemDAO(Context context) {
         db = MyDBHelper.getDatabase(context);
     }
 
-    // Ãö³¬¸ê®Æ®w¡A¤@¯ëªºÀ³¥Î³£¤£»Ý­n­×§ï
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®wï¿½Aï¿½@ï¿½ëªºï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½Ý­nï¿½×§ï¿½
     public void close() {
         db.close();
     }
 
-    // ·s¼W°Ñ¼Æ«ü©wªºª«¥ó
+    // ï¿½sï¿½Wï¿½Ñ¼Æ«ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public long insert(JSONObject _apphourblock) throws JSONException {
-        // «Ø¥ß·Ç³Æ·s¼W¸ê®ÆªºContentValuesª«¥ó
+        // ï¿½Ø¥ß·Ç³Æ·sï¿½Wï¿½ï¿½Æªï¿½ContentValuesï¿½ï¿½ï¿½ï¿½
         String appInString = _apphourblock.toString();
 
         ContentValues cv = new ContentValues();
 
-        // ¥[¤JContentValuesª«¥ó¥]¸Ëªº·s¼W¸ê®Æ
-        // ²Ä¤@­Ó°Ñ¼Æ¬OÄæ¦ì¦WºÙ¡A ²Ä¤G­Ó°Ñ¼Æ¬OÄæ¦ìªº¸ê®Æ
+        // ï¿½[ï¿½JContentValuesï¿½ï¿½ï¿½ï¿½]ï¿½Ëªï¿½ï¿½sï¿½Wï¿½ï¿½ï¿½
+        // ï¿½Ä¤@ï¿½Ó°Ñ¼Æ¬Oï¿½ï¿½ï¿½Wï¿½Ù¡A ï¿½Ä¤Gï¿½Ó°Ñ¼Æ¬Oï¿½ï¿½ìªºï¿½ï¿½ï¿½
 
         cv.put(APPHOURBLOCK, appInString);
 
-        // ·s¼W¤@µ§¸ê®Æ¨Ã¨ú±o½s¸¹
-        // ²Ä¤@­Ó°Ñ¼Æ¬Oªí®æ¦WºÙ
-        // ²Ä¤G­Ó°Ñ¼Æ¬O¨S¦³«ü©wÄæ¦ì­Èªº¹w³]­È
-        // ²Ä¤T­Ó°Ñ¼Æ¬O¥]¸Ë·s¼W¸ê®ÆªºContentValuesª«¥ó
+        // ï¿½sï¿½Wï¿½@ï¿½ï¿½ï¿½ï¿½Æ¨Ã¨ï¿½oï¿½sï¿½ï¿½
+        // ï¿½Ä¤@ï¿½Ó°Ñ¼Æ¬Oï¿½ï¿½ï¿½Wï¿½ï¿½
+        // ï¿½Ä¤Gï¿½Ó°Ñ¼Æ¬Oï¿½Sï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½Èªï¿½ï¿½wï¿½]ï¿½ï¿½
+        // ï¿½Ä¤Tï¿½Ó°Ñ¼Æ¬Oï¿½]ï¿½Ë·sï¿½Wï¿½ï¿½Æªï¿½ContentValuesï¿½ï¿½ï¿½ï¿½
         return db.insert(TABLE_NAME, null, cv);
     }
 
-    // ­×§ï°Ñ¼Æ«ü©wªºª«¥ó
+    // ï¿½×§ï¿½Ñ¼Æ«ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public boolean update(JSONObject _apphourblock, long id) throws JSONException {
-        // «Ø¥ß·Ç³Æ­×§ï¸ê®ÆªºContentValuesª«¥ó
+        // ï¿½Ø¥ß·Ç³Æ­×§ï¿½ï¿½Æªï¿½ContentValuesï¿½ï¿½ï¿½ï¿½
         String appInString = _apphourblock.toString();
 
         ContentValues cv = new ContentValues();
 
-        // ¥[¤JContentValuesª«¥ó¥]¸Ëªº­×§ï¸ê®Æ
-        // ²Ä¤@­Ó°Ñ¼Æ¬OÄæ¦ì¦WºÙ¡A ²Ä¤G­Ó°Ñ¼Æ¬OÄæ¦ìªº¸ê®Æ
+        // ï¿½[ï¿½JContentValuesï¿½ï¿½ï¿½ï¿½]ï¿½Ëªï¿½ï¿½×§ï¿½ï¿½ï¿½
+        // ï¿½Ä¤@ï¿½Ó°Ñ¼Æ¬Oï¿½ï¿½ï¿½Wï¿½Ù¡A ï¿½Ä¤Gï¿½Ó°Ñ¼Æ¬Oï¿½ï¿½ìªºï¿½ï¿½ï¿½
         cv.put(APPHOURBLOCK, appInString);
 
-        // ³]©w­×§ï¸ê®Æªº±ø¥ó¬°½s¸¹
-        // ®æ¦¡¬°¡uÄæ¦ì¦WºÙ¡×¸ê®Æ¡v
+        // ï¿½]ï¿½wï¿½×§ï¿½ï¿½Æªï¿½ï¿½ï¿½ó¬°½sï¿½ï¿½
+        // ï¿½æ¦¡ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Wï¿½Ù¡×¸ï¿½Æ¡v
         String where = KEY_ID + "=" + id;
 
-        // °õ¦æ­×§ï¸ê®Æ¨Ã¦^¶Ç­×§ïªº¸ê®Æ¼Æ¶q¬O§_¦¨¥\
+        // ï¿½ï¿½ï¿½ï¿½×§ï¿½ï¿½Æ¨Ã¦^ï¿½Ç­×§ïªºï¿½ï¿½Æ¼Æ¶qï¿½Oï¿½_ï¿½ï¿½ï¿½\
         return db.update(TABLE_NAME, cv, where, null) > 0;
     }
 
-    // §R°£°Ñ¼Æ«ü©w½s¸¹ªº¸ê®Æ
+    // ï¿½Rï¿½ï¿½ï¿½Ñ¼Æ«ï¿½wï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public boolean delete(long id){
-        // ³]©w±ø¥ó¬°½s¸¹¡A®æ¦¡¬°¡uÄæ¦ì¦WºÙ=¸ê®Æ¡v
+        // ï¿½]ï¿½wï¿½ï¿½ó¬°½sï¿½ï¿½ï¿½Aï¿½æ¦¡ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Wï¿½ï¿½=ï¿½ï¿½Æ¡v
         String where = KEY_ID + "=" + id;
-        // §R°£«ü©w½s¸¹¸ê®Æ¨Ã¦^¶Ç§R°£¬O§_¦¨¥\
+        // ï¿½Rï¿½ï¿½ï¿½ï¿½wï¿½sï¿½ï¿½ï¿½ï¿½Æ¨Ã¦^ï¿½Ç§Rï¿½ï¿½ï¿½Oï¿½_ï¿½ï¿½ï¿½\
         return db.delete(TABLE_NAME, where , null) > 0;
     }
 
-    // Åª¨ú©Ò¦³°O¨Æ¸ê®Æ
+    // Åªï¿½ï¿½Ò¦ï¿½ï¿½Oï¿½Æ¸ï¿½ï¿½
     public List<String> getAll() throws JSONException {
         /*
         JSONArray hourblocks = new JSONArray();
@@ -126,29 +127,29 @@ public class ItemDAO{
         return hourblocks;
     }
 
-    // ¨ú±o«ü©w½s¸¹ªº¸ê®Æª«¥ó
+    // ï¿½ï¿½oï¿½ï¿½wï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æªï¿½ï¿½ï¿½
     public JSONObject get(long id) throws JSONException {
-        // ¨Ï¥Î½s¸¹¬°¬d¸ß±ø¥ó
+        // ï¿½Ï¥Î½sï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ß±ï¿½ï¿½
         String where = KEY_ID + "=" + id;
         String appInString;
-        // °õ¦æ¬d¸ß
+        // ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½
         Cursor cursor = db.query(
                 TABLE_NAME, null, where, null, null, null, null, null);
 
-        // ¦pªG¦³¬d¸ßµ²ªG
+        // ï¿½pï¿½Gï¿½ï¿½ï¿½dï¿½ßµï¿½ï¿½G
         if (cursor.moveToFirst()) {
-            // Åª¨ú¥]¸Ë¤@µ§¸ê®Æªºª«¥ó
+            // Åªï¿½ï¿½]ï¿½Ë¤@ï¿½ï¿½ï¿½ï¿½Æªï¿½ï¿½ï¿½ï¿½ï¿½
             appInString = cursor.getString(1);
-            // Ãö³¬Cursorª«¥ó
+            // ï¿½ï¿½ï¿½ï¿½Cursorï¿½ï¿½ï¿½ï¿½
             cursor.close();
-            // ¦^¶Çµ²ªG
+            // ï¿½^ï¿½Çµï¿½ï¿½G
             return (new JSONObject(appInString));
         }
         cursor.close();
         return null;
     }
 
-    // ¨ú±o¸ê®Æ¼Æ¶q
+    // ï¿½ï¿½oï¿½ï¿½Æ¼Æ¶q
     public int getCount() {
         int result = 0;
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME, null);

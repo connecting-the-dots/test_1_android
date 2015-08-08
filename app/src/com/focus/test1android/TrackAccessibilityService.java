@@ -2,6 +2,7 @@ package com.focus.test1android;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -16,11 +17,15 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+import android.content.Intent;
+import android.os.CountDownTimer;
+import android.os.IBinder;
+import android.util.Log;
 
 /**
  * Created by XNS on 2015/7/23.
  */
-public class TrackAccessibilityService extends AccessibilityService {
+public class TrackAccessibilityService extends AccessibilityService{
 
     public static JSONArray outerArray = new JSONArray();
 
@@ -34,8 +39,13 @@ public class TrackAccessibilityService extends AccessibilityService {
     public static long deltaTime = 8*3600*1000;
     public static final String TAG = "TrackAccessibilityService";
 
+    public static final String COUNTDOWN_BR = "com.focus.test1android.countdown_br";
+    public static Intent bi = new Intent(COUNTDOWN_BR);
+
+    CountDownTimer cdt = null;
 
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
 
@@ -44,7 +54,31 @@ public class TrackAccessibilityService extends AccessibilityService {
             Log.v(TAG, "***** onAccessibilityEvent");
 
             String tempPackageName = event.getPackageName().toString();
+            if(tempPackageName.contentEquals("com.facebook.katana"))
+            {
+                Log.v(TAG, "Starting timer...");
 
+                cdt = new CountDownTimer(5000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                        Log.v(TAG, "Countdown seconds remainings: " + millisUntilFinished);
+                        bi.putExtra("countdown", millisUntilFinished);
+//                        sendBroadcast(bi);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Log.v(TAG, "Timer finished");
+                        sendBroadcast(bi);
+                    }
+                };
+
+                cdt.start();
+            } else {
+                if(cdt != null)
+                    cdt.cancel();
+            }
             if(currentPackageName.contentEquals("")) { // first time
                 currentPackageName = tempPackageName;
                 startTime = System.currentTimeMillis() + deltaTime;
@@ -95,7 +129,6 @@ public class TrackAccessibilityService extends AccessibilityService {
         }
 
     }
-
     static void storeAppInfo() throws JSONException {
 
         if(outerArray.length() == 0)
@@ -159,12 +192,14 @@ public class TrackAccessibilityService extends AccessibilityService {
 
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onInterrupt()
     {
         Log.v(TAG, "***** onInterrupt");
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onServiceConnected()
     {

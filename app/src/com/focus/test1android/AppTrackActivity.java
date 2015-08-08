@@ -1,10 +1,16 @@
 package com.focus.test1android;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,12 +37,13 @@ import java.util.Date;
 /**
  * Created by XNS on 2015/7/22.
  */
-public class AppTrackActivity extends Activity {
+public class AppTrackActivity extends Activity{
 
     private Button start_button;
     private Button stop_button;
     public static JSONArray mySortedArray = new JSONArray();
     public static final String TAG = "AppTrackActivity";
+    private int FM_NOTIFICATION_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,7 @@ public class AppTrackActivity extends Activity {
 
         Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startActivity(intent);
+        registerReceiver(br, new IntentFilter(TrackAccessibilityService.COUNTDOWN_BR));
     }
 
     public void onStartClick(View view) {
@@ -198,7 +206,7 @@ public class AppTrackActivity extends Activity {
             JSONObject clone = new JSONObject(TrackAccessibilityService.outerArray.getJSONObject(i).toString());
             jsonValues.add(clone);
         }
-        Collections.sort( jsonValues, new Comparator<JSONObject>() {
+        Collections.sort(jsonValues, new Comparator<JSONObject>() {
             private static final String KEY_NAME = "sumTime";
 
             @Override
@@ -207,14 +215,13 @@ public class AppTrackActivity extends Activity {
                 long valA = -1;
                 long valB = -1;
                 try {
-                    valA =  a.getLong(KEY_NAME);
-                    valB =  b.getLong(KEY_NAME);
-                }
-                catch (JSONException e) {
+                    valA = a.getLong(KEY_NAME);
+                    valB = b.getLong(KEY_NAME);
+                } catch (JSONException e) {
                     //do something
                 }
 
-                if(valA > valB) {
+                if (valA > valB) {
                     return 1;
                 } else {
                     return -1;
@@ -253,5 +260,52 @@ public class AppTrackActivity extends Activity {
         TextView service_state = (TextView) findViewById(R.id.service_state);
         service_state.setText("Service Off");
         service_state.setBackgroundColor(getResources().getColor(R.color.off_background));
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        unregisterReceiver(br);
+        Log.i(TAG, "Unregistered broadcast receiver");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        registerReceiver(br, new IntentFilter(TrackAccessibilityService.COUNTDOWN_BR));
+        Log.i(TAG, "Registered broadcast receiver");
+    }
+
+    private BroadcastReceiver br = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sendKickNotification(intent); // or whatever method used to update your GUI fields
+        }
+    };
+    private void sendKickNotification(Intent intent) {
+//        if (intent.getExtras() != null) {
+//            long millisUntilFinished = intent.getLongExtra("countdown", 0);
+//            Log.v(TAG, "Countdown seconds remaining: " +  millisUntilFinished);
+//
+//        } else {
+        Log.v(TAG, "KICK!");
+        addNotification();
+    }
+    private void addNotification() {
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("Notifications Example")
+                        .setContentText("You receive Kick :-)");
+
+        Intent notificationIntent = new Intent(this, AppTrackActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(FM_NOTIFICATION_ID, builder.build());
+        FM_NOTIFICATION_ID++;
     }
 }
