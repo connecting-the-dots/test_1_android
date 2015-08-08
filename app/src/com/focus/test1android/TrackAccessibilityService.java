@@ -57,10 +57,10 @@ public class TrackAccessibilityService extends AccessibilityService{
       kickDetectTypeOne(target);
       // kickDetectTypeTwo(tempPackageName);
       // kickDetectTypeThree(tempPackageName);
-      checkWindowState();
+      checkWindowState(event);
     }
   }
-  public void checkWindowState() {
+  public void checkWindowState(AccessibilityEvent event) {
 
     if(currentPackageName.contentEquals("")) {
       currentPackageName = tempPackageName;

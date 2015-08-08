@@ -78,7 +78,7 @@ public class UserDetailsActivity extends Activity {
           if (jsonObject != null) {
             JSONObject userProfile = new JSONObject();
             try {
-              
+
               userProfile.put("facebookId", jsonObject.getLong("id"));
               userProfile.put("name", jsonObject.getString("name"));
               // userProfile.put("gender", jsonObject.getString("gender"));
@@ -88,7 +88,7 @@ public class UserDetailsActivity extends Activity {
               ParseUser currentUser = ParseUser.getCurrentUser();
               currentUser.put("profile", userProfile);
               // Link installationId with currentUser
-              currentUser.put("installationId", 
+              currentUser.put("installationId",
                 ParseInstallation.getCurrentInstallation().get("installationId"));
               //store facebookId exclusively
               JSONObject profile = currentUser.getJSONObject("profile");
@@ -124,8 +124,9 @@ public class UserDetailsActivity extends Activity {
             }
           }
         }
-      }).executeAsync();
+      });
 
+    request.executeAsync();
     AddFriendActivity.registerFriendList();
   }
 
@@ -175,7 +176,6 @@ public class UserDetailsActivity extends Activity {
   }
 
   public void onTrackClick(View v) {
-    updateFriendList();
     showAppTrackActivity();
   }
 

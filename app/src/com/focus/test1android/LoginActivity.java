@@ -23,6 +23,8 @@ import java.util.List;
 public class LoginActivity extends Activity {
 
   private Dialog progressDialog;
+  static final String TAG = "LoginActivity";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     
