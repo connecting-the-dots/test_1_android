@@ -42,8 +42,7 @@ public class TrackAccessibilityService extends AccessibilityService{
     public static final String COUNTDOWN_BR = "com.focus.test1android.countdown_br";
     public static Intent bi = new Intent(COUNTDOWN_BR);
 
-    CountDownTimer cdt = null;
-
+    public static CountDownTimer cdt = null;
 
     @SuppressLint("LongLogTag")
     @Override
@@ -54,31 +53,10 @@ public class TrackAccessibilityService extends AccessibilityService{
             Log.v(TAG, "***** onAccessibilityEvent");
 
             String tempPackageName = event.getPackageName().toString();
-            if(tempPackageName.contentEquals("com.facebook.katana"))
-            {
-                Log.v(TAG, "Starting timer...");
 
-                cdt = new CountDownTimer(5000, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
+            //if typeOne is enabled
+            kickDetectTypeOne(tempPackageName);
 
-                        Log.v(TAG, "Countdown seconds remainings: " + millisUntilFinished);
-                        bi.putExtra("countdown", millisUntilFinished);
-//                        sendBroadcast(bi);
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Log.v(TAG, "Timer finished");
-                        sendBroadcast(bi);
-                    }
-                };
-
-                cdt.start();
-            } else {
-                if(cdt != null)
-                    cdt.cancel();
-            }
             if(currentPackageName.contentEquals("")) { // first time
                 currentPackageName = tempPackageName;
                 startTime = System.currentTimeMillis() + deltaTime;
@@ -114,6 +92,35 @@ public class TrackAccessibilityService extends AccessibilityService{
                 Log.v(TAG, "PackageName: " + currentPackageName + ", duration: " + (duration / 1000));
                 currentPackageName = event.getPackageName().toString();
             }
+        }
+    }
+
+    @SuppressLint("LongLogTag")
+    public void kickDetectTypeOne(String tempPackageName) {
+        if(tempPackageName.contentEquals("com.facebook.katana"))
+        {
+            Log.v(TAG, "Starting timer...");
+
+            cdt = new CountDownTimer(5000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                    Log.v(TAG, "Countdown seconds remainings: " + millisUntilFinished);
+                    bi.putExtra("countdown", millisUntilFinished);
+//                        sendBroadcast(bi);
+                }
+
+                @Override
+                public void onFinish() {
+                    Log.v(TAG, "Timer finished");
+                    sendBroadcast(bi);
+                }
+            };
+
+            cdt.start();
+        } else {
+            if(cdt != null)
+                cdt.cancel();
         }
     }
     public static void stopActivity() throws JSONException {

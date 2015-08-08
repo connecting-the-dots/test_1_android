@@ -14,12 +14,16 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.login.widget.ProfilePictureView;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.facebook.HttpMethod;
+
+import java.util.HashMap;
 
 public class UserDetailsActivity extends Activity {
 
@@ -39,15 +43,17 @@ public class UserDetailsActivity extends Activity {
 
     userProfilePictureView = (ProfilePictureView) findViewById(R.id.userProfilePicture);
     userNameView = (TextView) findViewById(R.id.userName);
-    userGenderView = (TextView) findViewById(R.id.userGender);
+//    userGenderView = (TextView) findViewById(R.id.userGender);
 //    userEmailView = (TextView) findViewById(R.id.userEmail);
 
 
     //Fetch Facebook user info if it is logged
     ParseUser currentUser = ParseUser.getCurrentUser();
-    if ((currentUser != null) && currentUser.isAuthenticated()) {
-      makeMeRequest();
+
+    if (currentUser != null && currentUser.isAuthenticated()) {
+        makeMeRequest();
     }
+
   }
 
   @Override
@@ -70,48 +76,52 @@ public class UserDetailsActivity extends Activity {
     GraphRequest request = GraphRequest.newMeRequest(
             AccessToken.getCurrentAccessToken(),
             new GraphRequest.GraphJSONObjectCallback() {
-              @Override
-              public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
+                @Override
+                public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
 
-                if (jsonObject != null) {
-                  JSONObject userProfile = new JSONObject();
+                    if (jsonObject != null) {
+                        JSONObject userProfile = new JSONObject();
 
-                  try {
-                    userProfile.put("facebookId", jsonObject.getLong("id"));
-                    userProfile.put("name", jsonObject.getString("name"));
-                    userProfile.put("gender", jsonObject.getString("gender"));
+                        try {
+                            userProfile.put("facebookId", jsonObject.getLong("id"));
+                            userProfile.put("name", jsonObject.getString("name"));
+//                    userProfile.put("gender", jsonObject.getString("gender"));
 //                    userProfile.put("email", jsonObject.getString("email"));
 
-                    // Save the user profile info in a user property
-                    ParseUser currentUser = ParseUser.getCurrentUser();
-                    currentUser.put("profile", userProfile);
-                    currentUser.saveInBackground();
+                            // Save the user profile info in a user property
+                            ParseUser currentUser = ParseUser.getCurrentUser();
+                            currentUser.put("profile", userProfile);
+                            // link installationId with currentUser
+                            currentUser.put("installationId", ParseInstallation.getCurrentInstallation().get("installationId"));
 
-                    // Show the user info
-                    updateViewsWithProfileInfo();
-                  } catch (JSONException e) {
-                    Log.d(Test1Android.TAG,
-                            "Error parsing returned user data. " + e);
-                  }
-                } else if (graphResponse.getError() != null) {
-                  switch (graphResponse.getError().getCategory()) {
-                    case LOGIN_RECOVERABLE:
-                      Log.d(Test1Android.TAG,
-                              "Authentication error: " + graphResponse.getError());
-                      break;
+                            currentUser.saveInBackground();
+                            Log.d(Test1Android.TAG, "profile, installationId saved");
 
-                    case TRANSIENT:
-                      Log.d(Test1Android.TAG,
-                              "Transient error. Try again. " + graphResponse.getError());
-                      break;
+                            // Show the user info
+                            updateViewsWithProfileInfo();
+                        } catch (JSONException e) {
+                            Log.d(Test1Android.TAG,
+                                    "Error parsing returned user data. " + e);
+                        }
+                    } else if (graphResponse.getError() != null) {
+                        switch (graphResponse.getError().getCategory()) {
+                            case LOGIN_RECOVERABLE:
+                                Log.d(Test1Android.TAG,
+                                        "Authentication error: " + graphResponse.getError());
+                                break;
 
-                    case OTHER:
-                      Log.d(Test1Android.TAG,
-                              "Some other error: " + graphResponse.getError());
-                      break;
-                  }
+                            case TRANSIENT:
+                                Log.d(Test1Android.TAG,
+                                        "Transient error. Try again. " + graphResponse.getError());
+                                break;
+
+                            case OTHER:
+                                Log.d(Test1Android.TAG,
+                                        "Some other error: " + graphResponse.getError());
+                                break;
+                        }
+                    }
                 }
-              }
             });
     request.executeAsync();
   }
@@ -121,7 +131,6 @@ public class UserDetailsActivity extends Activity {
     if (currentUser.has("profile")) {
       JSONObject userProfile = currentUser.getJSONObject("profile");
       try {
-
         if (userProfile.has("facebookId")) {
           userProfilePictureView.setProfileId(userProfile.getString("facebookId"));
         } else {
@@ -134,12 +143,11 @@ public class UserDetailsActivity extends Activity {
         } else {
           userNameView.setText("");
         }
-
-        if (userProfile.has("gender")) {
-          userGenderView.setText(userProfile.getString("gender"));
-        } else {
-          userGenderView.setText("");
-        }
+//        if (userProfile.has("gender")) {
+//          userGenderView.setText(userProfile.getString("gender"));
+//        } else {
+//          userGenderView.setText("");
+//        }
 
 //        if (userProfile.has("email")) {
 //          userEmailView.setText(userProfile.getString("email"));
@@ -173,10 +181,23 @@ public class UserDetailsActivity extends Activity {
   }
 
   public void onTrackClick(View v) {
+
+      updateFriendList();
     showAppTrackActivity();
     Log.d(Test1Android.TAG, "click!");
   }
 
+    public static void updateFriendList() {
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        //store facebookId exclusively
+        HashMap<String, String> tmp = (HashMap<String, String>) currentUser.get("profile");
+        currentUser.put("facebookId", tmp.get("facebookId"));
+        currentUser.saveInBackground();
+        //registerFriendList
+        AddFriendActivity.registerFriendList();
+
+    }
   private void showAppTrackActivity() {
     Intent intent = new Intent(this, AppTrackActivity.class);
     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
