@@ -1,11 +1,9 @@
 package com.focus.test1android;
 
 import android.app.Application;
-
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
-
 import org.json.JSONObject;
 
 

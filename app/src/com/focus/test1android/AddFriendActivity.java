@@ -30,120 +30,107 @@ import java.util.List;
 
 public class AddFriendActivity extends Activity {
 
-    static final String TAG = "AddFriendActivity";
-    private static ProfilePictureView userProfilePictureView;
-    private static TextView userNameView;
+  static final String TAG = "AddFriendActivity";
+  private static ProfilePictureView userProfilePictureView;
+  private static TextView userNameView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.friend);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.friend);
 
-        showFriendList();
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/me/friendlists",
-//                null,
-//                HttpMethod.GET,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//                        /* handle the result */
-//                        Log.v(TAG, response.toString());
-//                        JSONObject json = response.getJSONObject();
-//                        try {
-//                            JSONArray jarray = json.getJSONArray("data");
-//                            Log.v(TAG, jarray.toString());
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                }
-//        ).executeAsync();
-    }
-    public void showFriendList() {
-        Log.v("MyApp", "show!");
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friends",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        /* handle the result */
-                        Log.v(TAG, response.toString());
-                        JSONObject json = response.getJSONObject();
-                        try {
-                            JSONArray jarray = json.getJSONArray("data");
-                            Log.v(TAG, jarray.toString());
-                            userProfilePictureView = (ProfilePictureView) findViewById(R.id.userProfilePicture);
-                            userNameView = (TextView) findViewById(R.id.userName);
+    showFriendList();
+  }
+  public void showFriendList() {
+    new GraphRequest(
+      AccessToken.getCurrentAccessToken(),
+      "/me/friends",
+      null,
+      HttpMethod.GET,
+      new GraphRequest.Callback() {
+        public void onCompleted(GraphResponse response) {
+          /* handle the result */
+          Log.v(TAG, response.toString());
+          JSONObject json = response.getJSONObject();
+          try {
+            JSONArray jarray = json.getJSONArray("data");
+            Log.v(TAG, jarray.toString());
+            userProfilePictureView = (ProfilePictureView) findViewById(R.id.userProfilePicture);
+            userNameView = (TextView) findViewById(R.id.userName);
 
-                            userProfilePictureView.setProfileId(jarray.getJSONObject(0).getString("id"));
-                            userNameView.setText(jarray.getJSONObject(0).getString("name"));
+            userProfilePictureView.setProfileId(jarray.getJSONObject(0).getString("id"));
+            userNameView.setText(jarray.getJSONObject(0).getString("name"));
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      ).executeAsync();
+  }
+  // UserDetailsActivity with take this function, thus makes it static
+  public static void registerFriendList() {
+    
+    new GraphRequest(
+      AccessToken.getCurrentAccessToken(),
+      "/me/friends",
+      null,
+      HttpMethod.GET,
+      new GraphRequest.Callback() {
+        public void onCompleted(GraphResponse response) {
+          /* handle the result */
+          Log.v(TAG, response.toString());
+          JSONObject json = response.getJSONObject();
+          
+          try {
+            // jarray is with data include "facebookId" and "name"
+            JSONArray jarray = json.getJSONArray("data");
+            for(int i = 0 ; i < jarray.length(); i++) {
 
+              final ParseObject myFriendRelation = new ParseObject("FriendRelation");
+
+              Log.v(TAG, "friend " + i + ": " + jarray.getJSONObject(i));
+
+              ParseUser currentUser = ParseUser.getCurrentUser();
+              long tmpFacebookId = jarray.getJSONObject(i).getLong("id");
+              String userObjectId = currentUser.getObjectId();
+
+              // self info of this friend-and-I relationship
+              myFriendRelation.put("user", currentUser);
+              myFriendRelation.put("profile", jarray.getJSONObject(i));
+              myFriendRelation.put("facebookId", tmpFacebookId);
+              myFriendRelation.put("userObjectId", userObjectId);
+
+              // take facebookId as key to get friend info
+              ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+              query.whereEqualTo("facebookId", tmpFacebookId);
+              query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> friend, ParseException e) {
+                  if (e == null) {
+                    // prevent from null pointer exception
+                    if (friend.size() != 0) {
+                      Log.i(TAG, friend.get(0).getString("installationId"));
+                      // choose friend.get(0) since there's only one friend
+                      // matches the given facebookId
+                      myFriendRelation.put("installationId", 
+                        friend.get(0).getString("installationId"));
+                      myFriendRelation.saveInBackground();
+                      Log.i(TAG, "done relation");
+                    } else {
+                      Log.d(TAG, "Error: There is no friend of you with this facebookId");
                     }
+                  } else {
+                    Log.d(TAG, "Error: " + e.getMessage());
+                  }
                 }
-        ).executeAsync();
-    }
-    public static void registerFriendList(){
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friends",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        /* handle the result */
-                        Log.v(TAG, response.toString());
-                        JSONObject json = response.getJSONObject();
-                        try {
-                            JSONArray jarray = json.getJSONArray("data");
-                            for(int i = 0 ; i < jarray.length(); i++) {
-
-                                final ParseObject myFriendRelation = new ParseObject("FriendRelation");
-
-                                Log.v(TAG, "friend " + i + ": " + jarray.getJSONObject(i));
-                                ParseUser currentUser = ParseUser.getCurrentUser();
-                                myFriendRelation.put("user", currentUser);
-                                myFriendRelation.put("profile", jarray.getJSONObject(i));
-                                long tmpFacebookId = jarray.getJSONObject(i).getLong("id");
-                                myFriendRelation.put("facebookId", tmpFacebookId);
-                                String userObjectId = currentUser.getObjectId();
-                                myFriendRelation.put("userObjectId", userObjectId);
-
-                                ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-
-                                query.whereEqualTo("facebookId", tmpFacebookId);
-                                query.findInBackground(new FindCallback<ParseObject>() {
-                                    public void done(List<ParseObject> friend, ParseException e) {
-                                        if (e == null) {
-                                            if (friend.size() != 0) {
-                                                Log.v(TAG, friend.get(0).getString("installationId"));
-                                                myFriendRelation.put("installationId", friend.get(0).getString("installationId"));
-                                                myFriendRelation.saveInBackground();
-                                                Log.v(TAG, "done relation");
-                                            } else
-                                                Log.v(TAG, "Friend size = 0");
-                                        } else {
-                                            Log.d(TAG, "Error: " + e.getMessage());
-                                        }
-                                    }
-                                });
-                            }
-                            ParseUser.getCurrentUser().saveInBackground();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-        ).executeAsync();
-    }
+              });
+            }
+            ParseUser.getCurrentUser().saveInBackground();
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      ).executeAsync();
+}
 }
