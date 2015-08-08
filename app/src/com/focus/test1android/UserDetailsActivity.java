@@ -193,7 +193,9 @@ public class UserDetailsActivity extends Activity {
         //store facebookId exclusively
         HashMap<String, String> tmp = (HashMap<String, String>) currentUser.get("profile");
         currentUser.put("facebookId", tmp.get("facebookId"));
+        ParseInstallation.getCurrentInstallation().put("user", currentUser);
         currentUser.saveInBackground();
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         //registerFriendList
         AddFriendActivity.registerFriendList();
 
