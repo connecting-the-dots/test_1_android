@@ -162,23 +162,19 @@ public class UserDetailsActivity extends Activity {
       }
     }
   }
-
   public void onLogoutClick(View v) {
     ParseUser.logOut();
     startLoginActivity();
   }
-
   private void startLoginActivity() {
     Intent intent = new Intent(this, LoginActivity.class);
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     startActivity(intent);
   }
-
   public void onTrackClick(View v) {
     showAppTrackActivity();
   }
-
   private void showAppTrackActivity() {
     Intent intent = new Intent(this, AppTrackActivity.class);
       //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
