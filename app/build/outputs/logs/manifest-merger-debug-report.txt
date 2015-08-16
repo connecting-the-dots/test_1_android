@@ -197,10 +197,10 @@ category#com.focus.test1android
 ADDED from AndroidManifest.xml:100:17
 	android:name
 		ADDED from AndroidManifest.xml:100:27
-receiver#com.parse.ParsePushBroadcastReceiver
+receiver#com.focus.test1android.BroadcastReceiver
 ADDED from AndroidManifest.xml:103:9
 	android:exported
-		ADDED from AndroidManifest.xml:103:71
+		ADDED from AndroidManifest.xml:103:53
 	android:name
 		ADDED from AndroidManifest.xml:103:19
 intent-filter#com.parse.push.intent.DELETE+com.parse.push.intent.OPEN+com.parse.push.intent.RECEIVE

@@ -6,12 +6,19 @@ import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Test1Android extends Application {
 
   static final String TAG = "MyApp";
   public static ItemDAO itemDAO;
   public static JSONObject hourBlockId = new JSONObject();
+  public static JSONObject yetUpdate = new JSONObject();
+
+
+
   @Override
   public void onCreate() {
     super.onCreate();
@@ -26,4 +33,5 @@ public class Test1Android extends Application {
 
     ParseFacebookUtils.initialize(this);
   }
+
 }

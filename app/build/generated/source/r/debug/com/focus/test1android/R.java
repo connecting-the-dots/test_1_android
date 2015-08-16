@@ -244,9 +244,8 @@ containing a value of this type.
         public static final int start_button=0x7f080015;
         public static final int stop_button=0x7f080018;
         public static final int top=0x7f080008;
-        public static final int track_button=0x7f08002f;
+        public static final int track_button=0x7f08002e;
         public static final int unknown=0x7f080002;
-        public static final int userGender=0x7f08002e;
         public static final int userName=0x7f080022;
         public static final int userProfilePicture=0x7f080021;
         public static final int userdetails=0x7f08002d;

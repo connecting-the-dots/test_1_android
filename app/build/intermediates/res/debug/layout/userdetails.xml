@@ -33,16 +33,16 @@
             android:textSize="18sp"
             android:layout_marginBottom="29dp"
             android:textStyle="bold" />
-        <TextView
-            android:id="@+id/userGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:layout_marginBottom="29dp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/userGender"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:textColor="#333"-->
+            <!--android:textSize="18sp"-->
+            <!--android:layout_marginBottom="29dp"-->
+            <!--android:textStyle="bold" />-->
         <!--<TextView-->
             <!--android:id="@+id/userEmail"-->
             <!--android:layout_width="wrap_content"-->

@@ -116,9 +116,8 @@ int id standard 0x7f080005
 int id start_button 0x7f080015
 int id stop_button 0x7f080018
 int id top 0x7f080008
-int id track_button 0x7f08002f
+int id track_button 0x7f08002e
 int id unknown 0x7f080002
-int id userGender 0x7f08002e
 int id userName 0x7f080022
 int id userProfilePicture 0x7f080021
 int id userdetails 0x7f08002d

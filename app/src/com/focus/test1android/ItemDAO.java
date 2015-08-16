@@ -99,7 +99,7 @@ public class ItemDAO{
         return hourblocks;
     }
 
-    public JSONObject get(long id) throws JSONException {
+    public String get(long id) throws JSONException {
 
         String where = KEY_ID + "=" + id;
         String appInString;
@@ -110,7 +110,7 @@ public class ItemDAO{
         if (cursor.moveToFirst()) {
             appInString = cursor.getString(1);
             cursor.close();
-            return (new JSONObject(appInString));
+            return appInString;
         }
         cursor.close();
         return null;
