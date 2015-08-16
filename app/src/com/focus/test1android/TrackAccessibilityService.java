@@ -42,7 +42,7 @@ public class TrackAccessibilityService extends AccessibilityService {
     public static long duration = 0;
     public static boolean ignoring = false;
     public static long deltaTime = 8 * 3600 * 1000;
-    public static long anHour = 60000;
+    public static long anHour = 3600000;
 
     public static final String TAG = "MyService";
 
@@ -96,6 +96,7 @@ public class TrackAccessibilityService extends AccessibilityService {
                 try {
                     if (!ignoring) storeAppInfo();
                     sortJSONArray();
+                    checkOverTime();
                     storeInDatabase();
                     Log.v(TAG, "updating");
                     update();
