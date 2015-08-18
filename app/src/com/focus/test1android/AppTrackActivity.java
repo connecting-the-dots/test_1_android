@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.os.CountDownTimer;
 
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -49,8 +50,6 @@ public class AppTrackActivity extends Activity {
 
     private int FM_NOTIFICATION_ID = 0; // localNotification counter
 
-    private Handler mThreadHanlder;
-    private HandlerThread mThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

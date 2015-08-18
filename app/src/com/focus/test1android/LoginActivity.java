@@ -70,6 +70,7 @@ public class LoginActivity extends Activity {
       //load icons before shown. so the list is smoother
       final String appName = appInfo.getName();
       final String packageName = appInfo.getPackageName();
+      /*
       Drawable icon = appInfo.getIcon();
       Bitmap bitmap = drawableToBitmap(icon);
 
@@ -80,7 +81,7 @@ public class LoginActivity extends Activity {
 
       // Create the ParseFile
       final ParseFile file  = new ParseFile("picture_1.jpeg", image);
-
+      */
 
       ParseQuery<ParseObject> query = ParseQuery.getQuery("AppInfo");
       query.whereEqualTo("packageName", packageName);
@@ -90,7 +91,7 @@ public class LoginActivity extends Activity {
             ParseObject app = new ParseObject("AppInfo");
             app.put("appName", appName);
             app.put("packageName", packageName);
-            app.put("icon", file);
+            //app.put("icon", file);
             app.saveEventually();
           } else {
 
